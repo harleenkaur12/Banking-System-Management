@@ -16,41 +16,39 @@ protected:
 class bank_account : public person
 {
 public:
-    void create_Bank_Account(); 
-    void display_all_details(); 
-    void display_specefic();    
-    void display_last();        
-    void ac_exist();            
-    void delete_account();      
+    void create_Bank_Account();
+    void display_all_details();
+    void display_specefic();
+    void ac_exist();
+    void delete_account();
 };
 
-//creates a child 'transaction' class inherited from the parent 'person' class.
+// creates a child 'transaction' class inherited from the parent 'person' class.
 class transaction : public person
 {
 public:
-    void deposit();             
-    void withdraw();            
-    void display_balance();     
-    float interest();           
+    void deposit();
+    void withdraw();
+    void display_balance();
 };
 
-//creates a child 'employee' class inherited from the parent 'person' class.
+// creates a child 'employee' class inherited from the parent 'person' class.
 class employee : public person
 {
 public:
-    void update_name();         
+    void update_name();
 };
 
-//function to create a new account
+// function to create a new account
 void bank_account::create_Bank_Account()
 {
     fstream file;
-    system("cls"); 
+    system("cls");
     cout << "\n\n\tCreate new account\t\t\t\t\n\n";
-    cout << "Please enter the name of the Bank account holder : " << endl;
-    cin.ignore();       
-    getline(cin, name); 
-    cout << "Please enter the account number of the holder : " << endl;
+    cout << "Please enter the name of the customer : " << endl;
+    cin.ignore();
+    getline(cin, name);
+    cout << "Please enter the account number of the customer : " << endl;
     cin >> ac_no;
     cout << "Please enter the account type(C/S) : " << endl;
     cin >> ac_type;
@@ -62,7 +60,7 @@ void bank_account::create_Bank_Account()
     file.close();
 }
 
-//Function to display details of all the customers
+// Function to display details of all the customers
 void bank_account::display_all_details()
 {
     system("cls");
@@ -82,18 +80,18 @@ void bank_account::display_all_details()
 
             cout << "Account No is: " << ac_no << endl;
 
-            cout << "Type of account: " << ac_type<< endl;
+            cout << "Type of account: " << ac_type << endl;
 
             cout << "Amount deposited: " << balance << endl;
 
             cout << endl;
-            file >> name>> ac_no >> ac_type >> balance;
+            file >> name >> ac_no >> ac_type >> balance;
         }
     }
     file.close();
 }
 
-//Function to display details of a particular customer
+// Function to display details of a particular customer
 void bank_account::display_specefic()
 {
     fstream file;
@@ -124,31 +122,7 @@ void bank_account::display_specefic()
         }
     }
 }
-//Function to display the details of the last customer
-void bank_account::display_last()
-{
-    fstream file;
-    file.open("bank_File.txt", ios::in);
-    if (!file)
-        cout << " File not found";
-    else
-    {
-        file.seekg(EOF);
-    
-        cout << "\n\nDetails of Last Customer :\n\n";
-        cout << "Name of the customer: " << name << endl;
-
-        cout << "Account No is: " << ac_no << endl;
-
-        cout << "Type of account: " << ac_type << endl;
-
-        cout << "Amount deposited: " << balance << endl;
-
-        cout << endl;
-    }
-    file >> name >> ac_no >> ac_type >> balance;
-}
-//Function to verify whether an account exists or not in a file
+// Function to verify whether an account exists or not in a file
 void bank_account::ac_exist()
 {
     fstream file;
@@ -171,14 +145,14 @@ void bank_account::ac_exist()
         }
     }
 }
-//Function to carry out a deposit and update the available balance
+// Function to carry out a deposit and update the available balance
 void transaction::deposit()
 {
     system("cls");
     fstream file, file1;
     int t, count = 0;
     int ac_no_, new_balance;
-    cout << "\n\n\t\t\t\tUpdate Book Record";
+    cout << "\n\n\t\t\t\tDeposit amount";
     file1.open("bank_File_1.txt",
                ios::app | ios::out);
     file.open("bank_File.txt", ios::in);
@@ -233,7 +207,7 @@ void transaction::deposit()
            "bank_File.txt");
 }
 
-//Function to carry out a withdraw process and update the available balance
+// Function to carry out a withdraw process and update the available balance
 void transaction::withdraw()
 {
     system("cls");
@@ -265,12 +239,18 @@ void transaction::withdraw()
                      << "Withdraw amount";
                 cout << "\nEnter amount to withdraw: ";
                 cin >> t;
-                new_balance = balance - t;
-                file1 << " " << name << " "
-                      << ac_no << " "
-                      << ac_type << " " << new_balance
-                      << "\n\n";
-                count++;
+                if (t <= balance)
+                {
+                    new_balance = balance - t;
+                    file1 << " " << name << " "
+                          << ac_no << " "
+                          << ac_type << " " << new_balance
+                          << "\n\n";
+                    count++;
+                }
+                else{
+                    cout<<"\nSorry, Your account has insufficient balance "<<endl;
+                }
             }
             else
                 file1 << " " << name
@@ -295,7 +275,7 @@ void transaction::withdraw()
            "bank_File.txt");
 }
 
-//Function to delete an account
+// Function to delete an account
 void bank_account::delete_account()
 {
     string name_;
@@ -325,7 +305,7 @@ void bank_account::delete_account()
 
             if (accno == ac_no_)
             {
-                cout << "Delete  Account";
+                cout << "Delete  Account"<<endl;
                 cout << "Account is Deleted "
                         "Successfully...";
                 count++;
@@ -351,7 +331,7 @@ void bank_account::delete_account()
     rename("bank_File_1.txt",
            "bank_File.txt");
 }
-//Function to display the updated available balance of a customer
+// Function to display the updated available balance of a customer
 void transaction::display_balance()
 {
     fstream file;
@@ -378,12 +358,7 @@ void transaction::display_balance()
     }
 }
 
-//Function to display the interest a customer has to pay
-float transaction::interest()
-{
-}
-
-//Function to update customer name
+// Function to update customer name
 void employee ::update_name()
 {
     system("cls");
@@ -411,7 +386,7 @@ void employee ::update_name()
             if (ac_no_ == ac_no)
             {
                 system("cls");
-                cout << "Please enter the name of the Bank account holder : " << endl;
+                cout << "Please enter the new name of the customer : " << endl;
                 cin.ignore(); // used so that input is done into the desired container
                 getline(cin, new_name);
                 name = new_name;
@@ -466,8 +441,7 @@ int main()
         cout << "7.Show data of a particular customer" << endl;
         cout << "8.Check Balance" << endl;
         cout << "9.Delete An Account" << endl;
-        cout << "10.Show data of last customer " << endl;
-        cout << "11.Exit" << endl;
+        cout << "10.Exit" << endl;
         cout << "Enter your choice" << endl;
         cin >> option;
         switch (option)
@@ -486,6 +460,7 @@ int main()
             break;
         case 5:
             b.ac_exist();
+            break;
         case 6:
             e.update_name();
             break;
@@ -499,9 +474,6 @@ int main()
             b.delete_account();
             exit(0);
         case 10:
-            b.display_last();
-            break;
-        case 11:
             exit(0);
         default:
             cout << "enter correct option" << endl;
