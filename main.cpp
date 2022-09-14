@@ -2,7 +2,7 @@
 #include <fstream>
 using namespace std;
 
-// creates a class person having attributes storing the name, account number, account type and account balance of the customer respectively.
+// class person having attributes storing the name, account number, account type and account balance of the customer respectively.
 class person
 {
 protected:
@@ -12,7 +12,7 @@ protected:
     int balance;
 };
 
-// creates a child class 'bank_account' inherited from its parent 'person' class.
+// child class 'bank_account' inherited from its parent 'person' class.
 class bank_account : public person
 {
 public:
@@ -23,7 +23,7 @@ public:
     void delete_account();
 };
 
-// creates a child 'transaction' class inherited from the parent 'person' class.
+// child 'transaction' class inherited from the parent 'person' class.
 class transaction : public person
 {
 public:
@@ -32,14 +32,14 @@ public:
     void display_balance();
 };
 
-// creates a child 'employee' class inherited from the parent 'person' class.
+// child 'employee' class inherited from the parent 'person' class.
 class employee : public person
 {
 public:
     void update_name();
 };
 
-// function to create a new account
+// Function to create a new account
 void bank_account::create_Bank_Account()
 {
     fstream file;
@@ -145,6 +145,64 @@ void bank_account::ac_exist()
         }
     }
 }
+
+// Function to delete an account
+void bank_account::delete_account()
+{
+    string name_;
+    int ac_no_;
+    string ac_type_;
+    int balance_;
+
+    fstream file, file1;
+    int count = 0;
+    int accno;
+    // Append file in output mode
+    file1.open("bank_File_1.txt",
+               ios::app | ios::out);
+    file.open("bank_File.txt",
+              ios::in);
+
+    if (!file)
+        cout << "File Opening Error...";
+    else
+    {
+
+        cout << "Account No: : ";
+        cin >> accno;
+        file >> name_ >> ac_no_ >> ac_type_ >> balance_;
+        while (!file.eof())
+        {
+
+            if (accno == ac_no_)
+            {
+                cout << "Delete  Account" << endl;
+                cout << "Account is Deleted "
+                        "Successfully...";
+                count++;
+            }
+            else
+                file1 << " " << name_
+                      << " " << accno
+                      << " " << ac_type_
+                      << " " << balance_
+                      << "\n\n";
+            file >> name_ >> accno >> ac_type_ >> balance_;
+        }
+        if (count == 0)
+            cout << "\n\nAccount"
+                 << "Not Found...";
+    }
+    system("pause");
+
+    // Close the file
+    file.close();
+    file1.close();
+    remove("bank_File.txt");
+    rename("bank_File_1.txt",
+           "bank_File.txt");
+}
+
 // Function to carry out a deposit and update the available balance
 void transaction::deposit()
 {
@@ -248,8 +306,9 @@ void transaction::withdraw()
                           << "\n\n";
                     count++;
                 }
-                else{
-                    cout<<"\nSorry, Your account has insufficient balance "<<endl;
+                else
+                {
+                    cout << "\nSorry, Your account has insufficient balance " << endl;
                 }
             }
             else
@@ -275,62 +334,6 @@ void transaction::withdraw()
            "bank_File.txt");
 }
 
-// Function to delete an account
-void bank_account::delete_account()
-{
-    string name_;
-    int ac_no_;
-    string ac_type_;
-    int balance_;
-
-    fstream file, file1;
-    int count = 0;
-    int accno;
-    // Append file in output mode
-    file1.open("bank_File_1.txt",
-               ios::app | ios::out);
-    file.open("bank_File.txt",
-              ios::in);
-
-    if (!file)
-        cout << "File Opening Error...";
-    else
-    {
-
-        cout << "Account No: : ";
-        cin >> accno;
-        file >> name_ >> ac_no_ >> ac_type_ >> balance_;
-        while (!file.eof())
-        {
-
-            if (accno == ac_no_)
-            {
-                cout << "Delete  Account"<<endl;
-                cout << "Account is Deleted "
-                        "Successfully...";
-                count++;
-            }
-            else
-                file1 << " " << name_
-                      << " " << accno
-                      << " " << ac_type_
-                      << " " << balance_
-                      << "\n\n";
-            file >> name_ >> accno >> ac_type_ >> balance_;
-        }
-        if (count == 0)
-            cout << "\n\nAccount"
-                 << "Not Found...";
-    }
-    system("pause");
-
-    // Close the file
-    file.close();
-    file1.close();
-    remove("bank_File.txt");
-    rename("bank_File_1.txt",
-           "bank_File.txt");
-}
 // Function to display the updated available balance of a customer
 void transaction::display_balance()
 {
@@ -479,7 +482,7 @@ int main()
             cout << "enter correct option" << endl;
             exit(0);
         }
-    } while (option != 7);
+    } while (option != 11);
 
     return 0;
 }
